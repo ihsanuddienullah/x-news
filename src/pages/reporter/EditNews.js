@@ -5,7 +5,7 @@ import swal from "sweetalert";
 import { UPDATE_ARTICLE } from "../../config/graphql/Mutations";
 import { useMutation } from "@apollo/client";
 
-const EditNews = (props) => {    
+const EditNews = (props) => {
     const [title, setTitle] = useState(props.location.state.detail.title);
     const [content, setContent] = useState(props.location.state.detail.content);
     const [image, setImage] = useState(props.location.state.detail.images);
@@ -68,15 +68,15 @@ const EditNews = (props) => {
             },
             data,
         })
-            .then(async (res) => {
+            .then((res) => {
                 // console.log(idNews);
                 // console.log(res);
-                await swal("News Edited", `${title}`, "success");
-                window.location.assign("/mynews");
             })
             .catch((err) => {
                 console.log(err);
             });
+        await swal("News Edited", `${title}`, "success");
+        window.location.assign("/mynews");
     };
 
     const updateDraftArticle = async (e) => {
@@ -96,7 +96,7 @@ const EditNews = (props) => {
         data.append("image", image);
         data.append("articles_id", idArticle);
 
-        await axios({
+        axios({
             method: "post",
             url: "https://xnews-graphql-playground.herokuapp.com/upload",
             headers: {
@@ -106,7 +106,7 @@ const EditNews = (props) => {
         })
             .then((res) => {
                 // console.log(idNews);
-                // console.log(res);                
+                // console.log(res);
             })
             .catch((err) => {
                 console.log(err);

@@ -104,15 +104,15 @@ const CreateNews = () => {
             },
             data,
         })
-            .then(async (res) => {
+            .then((res) => {
                 // console.log(idNews);
                 // console.log(res);
-                await swal("News Created", `${title}`, "success");
-                window.location.assign("/mynews");
             })
             .catch((err) => {
                 console.log(err);
             });
+        await swal("News Created", `${title}`, "success");
+        window.location.assign("/mynews");
     };
 
     const saveAsDraft = async (e) => {
@@ -140,7 +140,7 @@ const CreateNews = () => {
         data.append("image", image);
         data.append("articles_id", idNews);
 
-        await axios({
+        axios({
             method: "post",
             url: "https://xnews-graphql-playground.herokuapp.com/upload",
             headers: {
