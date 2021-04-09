@@ -5,8 +5,7 @@ import swal from "sweetalert";
 import { UPDATE_ARTICLE } from "../../config/graphql/Mutations";
 import { useMutation } from "@apollo/client";
 
-const EditNews = (props) => {
-    console.log(props);
+const EditNews = (props) => {    
     const [title, setTitle] = useState(props.location.state.detail.title);
     const [content, setContent] = useState(props.location.state.detail.content);
     const [image, setImage] = useState(props.location.state.detail.images);
@@ -69,16 +68,15 @@ const EditNews = (props) => {
             },
             data,
         })
-            .then((res) => {
+            .then(async (res) => {
                 // console.log(idNews);
                 // console.log(res);
+                await swal("News Edited", `${title}`, "success");
+                window.location.assign("/mynews");
             })
             .catch((err) => {
                 console.log(err);
             });
-
-        await swal("News Edited", `${title}`, "success");
-        window.location.assign("/mynews");
     };
 
     const updateDraftArticle = async (e) => {
@@ -98,7 +96,7 @@ const EditNews = (props) => {
         data.append("image", image);
         data.append("articles_id", idArticle);
 
-        axios({
+        await axios({
             method: "post",
             url: "https://xnews-graphql-playground.herokuapp.com/upload",
             headers: {
@@ -108,18 +106,17 @@ const EditNews = (props) => {
         })
             .then((res) => {
                 // console.log(idNews);
-                // console.log(res);
+                // console.log(res);                
             })
             .catch((err) => {
                 console.log(err);
             });
-
         await swal("Draft Edited", `${title}`, "success");
         window.location.assign("/mydraft");
     };
 
     return (
-        <div>
+        <div id="editNews">
             <Container className="container">
                 <Row className="h1">
                     <Col>Edit News</Col>
@@ -138,7 +135,7 @@ const EditNews = (props) => {
                             </Form.Group>
                         </Col>
                         <Col md={3}>
-                            <Form.File                                
+                            <Form.File
                                 id="image"
                                 name="image"
                                 accept="image/*"
@@ -151,7 +148,6 @@ const EditNews = (props) => {
                         <Col md={2}>
                             <Button
                                 variant="secondary"
-                                style={{ width: "100%" }}
                                 onClick={updateDraftArticle}
                                 className="mb-2"
                             >
@@ -162,7 +158,6 @@ const EditNews = (props) => {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                style={{ width: "100%" }}
                                 className="mb-2"
                             >
                                 Submit

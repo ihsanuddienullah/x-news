@@ -123,3 +123,12 @@ export const GET_AUTHOR_DRAFT = gql`
         }
     }
 `;
+
+export const GET_ALL_CATEGORY = gql`
+    query {
+        GetAllCategories {
+            id
+            name
+        }
+    }
+`;

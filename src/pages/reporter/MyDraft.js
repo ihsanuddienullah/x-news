@@ -68,7 +68,7 @@ const MyNews = () => {
     };
 
     return (
-        <div id="my-news">
+        <div id="my-draft">
             <Container className="container">
                 <Row className="h1 mb-3">
                     <Col>My Drafts</Col>
@@ -77,9 +77,9 @@ const MyNews = () => {
                     <Col md={2} lg={2} sm={2} xl={2} xs={12} className="mb-3">
                         <Button
                             variant="primary"
-                            style={{ width: "100%" }}
                             as={Link}
                             to="/createnews"
+                            style={{ width: "100%" }}
                         >
                             Create News
                         </Button>
@@ -224,12 +224,15 @@ const MyNews = () => {
                     Are you sure want to delete this "{title}"?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button
+                        variant="secondary"
+                        onClick={handleClose}                    
+                    >
                         Close
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => onDelete(idArticle, title)}
+                        onClick={() => onDelete(idArticle, title)}                        
                     >
                         Yes
                     </Button>

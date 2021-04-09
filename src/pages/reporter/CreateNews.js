@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Col, Row, Button, Form, Container } from "react-bootstrap";
 import axios from "axios";
 import swal from "sweetalert";
+import { GET_ALL_CATEGORY } from "./../../config/graphql/Queries";
 import { CREATE_ARTICLE } from "./../../config/graphql/Mutations";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { LoopCircleLoading } from "react-loadingg";
 
 const CreateNews = () => {
     const [title, setTitle] = useState("");
@@ -19,6 +21,10 @@ const CreateNews = () => {
 
     const handleChangeContent = (e) => {
         setContent(e.target.value);
+    };
+
+    const handleCategory = (e) => {
+        console.log("value of checkbox : ", e.target.checked);
     };
 
     // let config = {
@@ -134,7 +140,7 @@ const CreateNews = () => {
         data.append("image", image);
         data.append("articles_id", idNews);
 
-        axios({
+        await axios({
             method: "post",
             url: "https://xnews-graphql-playground.herokuapp.com/upload",
             headers: {
@@ -142,19 +148,25 @@ const CreateNews = () => {
             },
             data,
         })
-            .then(async (res) => {
+            .then((res) => {
                 // console.log(idNews);
                 // console.log(res);
-                await swal("News saved as draft", `${title}`, "success");
-                window.location.assign("/mydraft");
             })
             .catch((err) => {
                 console.log(err);
             });
+        await swal("News saved as draft", `${title}`, "success");
+        window.location.assign("/mydraft");
     };
 
+    const { loading, error, data } = useQuery(GET_ALL_CATEGORY);
+
+    if (loading)
+        return <LoopCircleLoading className="container" color="#000" />;
+    if (error) return <p className="container">Error :(</p>;
+
     return (
-        <div>
+        <div id="createNews">
             <Container className="container">
                 <Row className="h1">
                     <Col>Create News</Col>
@@ -186,7 +198,6 @@ const CreateNews = () => {
                         <Col md={2}>
                             <Button
                                 variant="secondary"
-                                style={{ width: "100%" }}
                                 onClick={saveAsDraft}
                                 className="mb-2"
                             >
@@ -197,12 +208,22 @@ const CreateNews = () => {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                style={{ width: "100%" }}
                                 className="mb-2"
                             >
                                 Submit
                             </Button>
                         </Col>
+                    </Row>
+                    <Row>
+                        {data.GetAllCategories.map((category) => (
+                            <Col>
+                                <Form.Check
+                                    type="checkbox"
+                                    label={category.name}
+                                    onChange={handleCategory}
+                                />
+                            </Col>
+                        ))}
                     </Row>
                     <Row>
                         <Col>

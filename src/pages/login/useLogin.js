@@ -30,7 +30,7 @@ const useForm = (callback, validate) => {
     });
     
     axios
-    .post("https://xnews-development.herokuapp.com/login", {
+    .post("https://xnews-graphql-playground.herokuapp.com/login", {
       email: values.email,
       password: values.password,
     })

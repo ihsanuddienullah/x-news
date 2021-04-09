@@ -1,34 +1,34 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  /* background: lightgray; */
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    /* background: lightgray; */
 }
 
 .container {
-  position: relative;
-  top : 10vh;
+    position: relative;
+    top: 10vh;
 }
 
 .card {
-  transition: transform 0.2s;
+    transition: transform 0.2s;
 }
 
 .ling {
-  color: black
+    color: black;
 }
 
 .engraved {
-  color: #f0f0f0;
-  font-size: 24px;
-  background-color: #666666;
-  text-shadow: 1px 4px 4px #555;
-  text-align: center;
-  -webkit-background-clip: text;
+    color: #f0f0f0;
+    font-size: 24px;
+    background-color: #666666;
+    text-shadow: 1px 4px 4px #555;
+    text-align: center;
+    -webkit-background-clip: text;
     -moz-background-clip: text;
 
-    text-shadow: -1px -1px rgba(0,0,0,0.5), 1px 1px rgba(255,255,255,0.5);
-  color: rgba(0,0,0,0.5);
+    text-shadow: -1px -1px rgba(0, 0, 0, 0.5), 1px 1px rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 #dashboard-reporter .card:hover,
@@ -38,31 +38,31 @@ body {
 #user-list .card:hover,
 #proposal .card:hover,
 #myDraft .card:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 #header ul {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 #header ul a {
-  list-style: none;
-  color: #343A40;
-  font-weight: bolder;  
+    list-style: none;
+    color: #343a40;
+    font-weight: bolder;
 }
 
 #header ul a:hover {
-  color: white;
-  background-color: #343A40;
+    color: white;
+    background-color: #343a40;
 }
 
 #header ul li {
-  padding: 10px 0 !important;
+    padding: 10px 0 !important;
 }
 
 #header ul li:hover {
-  background-color: white!important;
-  cursor: none;
+    background-color: white !important;
+    cursor: none;
 }
 
 #dashboard-publisher .card-shadow,
@@ -73,27 +73,27 @@ body {
 #unapproved-news .card-shadow,
 #myDraft .card-shadow,
 #login .card-shadow {
-  -webkit-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
-  -moz-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
-  box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
+    -webkit-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
+    -moz-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
+    box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
 }
 
 #login .container-login {
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #dashboard-publisher .card-dashboard,
 #dashboard-reporter .card-dashboard {
-  height: 100px;
-  display: flex;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: flex-end;
-  padding-right: 10%;
+    height: 100px;
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 10%;
 }
 
 #dashboard-publisher .card-news,
@@ -101,19 +101,26 @@ body {
 #proposal .card-news,
 #my-news .card-news,
 #myDraft .card-news {
-  height: 150px;
-  display: flex;
-  border-radius: 10px;
-  justify-content: center;
-  /* align-items: flex-start; */
-  padding-left: 5%;
+    height: 150px;
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    /* align-items: flex-start; */
+    padding-left: 5%;
 }
 
 #proposal .card-proposal {
-  height: 150px;
-  display: flex;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: flex-end;
-  padding-right: 10%;
+    height: 150px;
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 10%;
+}
+
+#createNews button,
+#editNews button,
+#my-news button,
+#my-draft button {
+    width: 100% !important;
 }

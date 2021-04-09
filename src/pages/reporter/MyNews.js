@@ -263,6 +263,7 @@ const MyNews = () => {
                             src={
                                 newsData.images !== "" ? newsData.images : image
                             }
+                            style={{ maxHeight: "200px", objectFit: "cover" }}
                         />
                         <Card.Body>
                             <Card.Title style={{ fontWeight: "bolder" }}>
@@ -438,7 +439,7 @@ const MyNews = () => {
                     )}
                 </Row>
             </Container>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete confirmation</Modal.Title>
                 </Modal.Header>
