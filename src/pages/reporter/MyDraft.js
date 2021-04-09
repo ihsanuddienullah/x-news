@@ -216,7 +216,7 @@ const MyNews = () => {
                     )}
                 </Row>
             </Container>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete confirmation</Modal.Title>
                 </Modal.Header>

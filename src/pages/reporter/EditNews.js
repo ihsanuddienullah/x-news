@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 const EditNews = (props) => {
     const [title, setTitle] = useState(props.location.state.detail.title);
     const [content, setContent] = useState(props.location.state.detail.content);
+    const gambar = props.location.state.detail.images;
     const [image, setImage] = useState(props.location.state.detail.images);
     const [updateArticles] = useMutation(UPDATE_ARTICLE);
     // const status = props.location.state.detail.status;
@@ -60,23 +61,28 @@ const EditNews = (props) => {
         data.append("image", image);
         data.append("articles_id", idArticle);
 
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then((res) => {
-                // console.log(idNews);
-                // console.log(res);
+        if (image !== gambar) {
+            axios({
+                method: "post",
+                url: "https://xnews-graphql-playground.herokuapp.com/upload",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data,
             })
-            .catch((err) => {
-                console.log(err);
-            });
-        await swal("News Edited", `${title}`, "success");
-        window.location.assign("/mynews");
+                .then(async (res) => {
+                    // console.log(idNews);
+                    // console.log(res);
+                    await swal("News Edited", `${title}`, "success");
+                    window.location.assign("/mynews");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            await swal("News Edited", `${title}`, "success");
+            window.location.assign("/mynews");
+        }
     };
 
     const updateDraftArticle = async (e) => {
@@ -95,24 +101,30 @@ const EditNews = (props) => {
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idArticle);
+        console.log(idArticle);
 
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then((res) => {
-                // console.log(idNews);
-                // console.log(res);
+        if (image !== gambar) {
+            axios({
+                method: "post",
+                url: "https://xnews-graphql-playground.herokuapp.com/upload",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data,
             })
-            .catch((err) => {
-                console.log(err);
-            });
-        await swal("Draft Edited", `${title}`, "success");
-        window.location.assign("/mydraft");
+                .then(async (res) => {
+                    // console.log(idNews);
+                    // console.log(res);
+                    await swal("Draft Edited", `${title}`, "success");
+                    window.location.assign("/mydraft");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            await swal("Draft Edited", `${title}`, "success");
+            window.location.assign("/mydraft");
+        }
     };
 
     return (

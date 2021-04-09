@@ -104,15 +104,21 @@ const CreateNews = () => {
             },
             data,
         })
-            .then((res) => {
+            .then(async (res) => {
                 // console.log(idNews);
                 // console.log(res);
+                await swal("News created", `${title}`, "success");
+                window.location.assign("/mynews");
             })
             .catch((err) => {
                 console.log(err);
             });
-        await swal("News Created", `${title}`, "success");
-        window.location.assign("/mynews");
+
+        // if(image !== null){            
+        // } else {
+        //     await swal("News saved as draft", `${title}`, "success")
+        //     window.location.assign("/mynews");
+        // }
     };
 
     const saveAsDraft = async (e) => {
@@ -139,24 +145,30 @@ const CreateNews = () => {
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idNews);
+        console.log(image);
 
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then((res) => {
-                // console.log(idNews);
-                // console.log(res);
+        if (image !== null) {
+            axios({
+                method: "post",
+                url: "https://xnews-graphql-playground.herokuapp.com/upload",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data,
             })
-            .catch((err) => {
-                console.log(err);
-            });
-        await swal("News saved as draft", `${title}`, "success");
-        window.location.assign("/mydraft");
+                .then(async (res) => {
+                    // console.log(idNews);
+                    // console.log(res);
+                    await swal("News saved as draft", `${title}`, "success");
+                    window.location.assign("/mydraft");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            await swal("News saved as draft", `${title}`, "success");
+            window.location.assign("/mydraft");
+        }
     };
 
     const { loading, error, data } = useQuery(GET_ALL_CATEGORY);
