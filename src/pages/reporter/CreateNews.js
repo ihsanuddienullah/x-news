@@ -4,7 +4,6 @@ import axios from "axios";
 import swal from "sweetalert";
 import { CREATE_ARTICLE } from "./../../config/graphql/Mutations";
 import { useMutation } from "@apollo/client";
-import { LoopCircleLoading } from "react-loadingg";
 
 const CreateNews = () => {
     const [title, setTitle] = useState("");
@@ -86,7 +85,7 @@ const CreateNews = () => {
             });
 
         let FormData = require("form-data");
-        let fs = require("fs");
+        // let fs = require("fs");
         let data = new FormData();
         data.append("image", image, image.name);
         data.append("articles_id", idNews);
@@ -99,20 +98,19 @@ const CreateNews = () => {
             },
             data,
         })
-            .then((res) => {
+            .then(async (res) => {
                 // console.log(idNews);
                 // console.log(res);
+                await swal("News Created", `${title}`, "success");
+                window.location.assign("/mynews");
             })
             .catch((err) => {
                 console.log(err);
             });
-
-        await swal("News Created", `${title}`, "success");
-        window.location.assign("/mynews");
     };
 
     const saveAsDraft = async (e) => {
-        e.preventDefault();        
+        e.preventDefault();
         let idNews;
         await submitArticles({
             variables: {
@@ -131,7 +129,7 @@ const CreateNews = () => {
             });
 
         let FormData = require("form-data");
-        let fs = require("fs");
+        // let fs = require("fs");
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idNews);
@@ -144,16 +142,15 @@ const CreateNews = () => {
             },
             data,
         })
-            .then((res) => {
+            .then(async (res) => {
                 // console.log(idNews);
                 // console.log(res);
+                await swal("News saved as draft", `${title}`, "success");
+                window.location.assign("/mydraft");
             })
             .catch((err) => {
                 console.log(err);
             });
-
-        await swal("News saved as draft", `${title}`, "success");
-        window.location.assign("/mydraft");
     };
 
     return (
@@ -187,7 +184,7 @@ const CreateNews = () => {
                             />
                         </Col>
                         <Col md={2}>
-                            <Button                                
+                            <Button
                                 variant="secondary"
                                 style={{ width: "100%" }}
                                 onClick={saveAsDraft}

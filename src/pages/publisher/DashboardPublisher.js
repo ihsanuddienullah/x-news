@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Col, Container, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
@@ -10,7 +10,6 @@ const DashboardPublisher = () => {
   const { loading, error, data } = useQuery(GET_ARTICLES_AND_USERS, {
     pollInterval: 500,
   });
-  const users = [];
 
   if (loading) return <LoopCircleLoading className="container" color="#000" />;
 
@@ -137,6 +136,7 @@ const DashboardPublisher = () => {
                     <Card.Img
                       variant="top"
                       src={items.images !== "" ? items.images : image}
+                      style={{maxHeight:'200px', objectFit:'cover'}}
                     />
                     <Card.Body>
                       <Row>

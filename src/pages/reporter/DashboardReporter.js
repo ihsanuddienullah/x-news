@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Col, Card, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { GET_AUTHOR_ARTICLES } from "./../../config/graphql/Queries";
 import { useQuery } from "@apollo/client";
 import { LoopCircleLoading } from "react-loadingg";
 import image from "../../styles/img/image-null.png";
 
 const DashboardReporter = () => {
-    // const [news, setNews] = useState([]);
     const idAuthor = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     // var data = JSON.stringify({
     //     query: `{getAuthorArticles(id:${idAuthor}){id, title, content, likes, dislikes, status, approved_by, deleted_by, created_at, categories{id, name}, author_id, , author{id, fullname, email, roles}notes{
@@ -96,44 +95,52 @@ const DashboardReporter = () => {
         <div id="dashboard-reporter">
             <Container className="container">
                 <Row className="mb-4 mt-4">
-                    <Col>
+                    <Col className="mb-3" md={6} xs={12}>
                         <Card className="card-shadow card-dashboard">
                             <Row style={{ width: "100%" }}>
                                 <Col
                                     lg={9}
                                     md={9}
+                                    xs={9}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Title>News Total </Card.Title>
+                                    <Card.Title className="engraved">
+                                        News Total{" "}
+                                    </Card.Title>
                                 </Col>
                                 <Col
                                     lg={3}
                                     md={3}
+                                    xs={3}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Text>
+                                    <Card.Text className="engraved">
                                         {data.GetAuthorArticles.length}
                                     </Card.Text>
                                 </Col>
                             </Row>
                         </Card>
                     </Col>
-                    <Col>
+                    <Col md={6} xs={12}>
                         <Card className="card-shadow card-dashboard">
                             <Row style={{ width: "100%" }}>
                                 <Col
                                     lg={9}
                                     md={9}
+                                    xs={9}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Title>News Approved </Card.Title>
+                                    <Card.Title className="engraved">
+                                        News Approved{" "}
+                                    </Card.Title>
                                 </Col>
                                 <Col
                                     lg={3}
                                     md={3}
+                                    xs={3}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Text>
+                                    <Card.Text className="engraved">
                                         {appArticle(data.GetAuthorArticles)}
                                     </Card.Text>
                                 </Col>
@@ -142,44 +149,52 @@ const DashboardReporter = () => {
                     </Col>
                 </Row>
                 <Row className="mb-5">
-                    <Col>
+                    <Col className="mb-3" md={6} xs={12}>
                         <Card className="card-shadow card-dashboard">
                             <Row style={{ width: "100%" }}>
                                 <Col
                                     lg={9}
                                     md={9}
+                                    xs={9}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Title>Waiting Approval </Card.Title>
+                                    <Card.Title className="engraved">
+                                        Waiting Approval{" "}
+                                    </Card.Title>
                                 </Col>
                                 <Col
                                     lg={3}
                                     md={3}
+                                    xs={3}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Text>
+                                    <Card.Text className="engraved">
                                         {waiArticle(data.GetAuthorArticles)}
                                     </Card.Text>
                                 </Col>
                             </Row>
                         </Card>
                     </Col>
-                    <Col>
+                    <Col md={6} xs={12}>
                         <Card className="card-shadow card-dashboard">
                             <Row style={{ width: "100%" }}>
                                 <Col
                                     lg={9}
                                     md={9}
+                                    xs={9}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Title>News Rejected </Card.Title>
+                                    <Card.Title className="engraved">
+                                        News Rejected{" "}
+                                    </Card.Title>
                                 </Col>
                                 <Col
                                     lg={3}
                                     md={3}
+                                    xs={3}
                                     style={{ textAlign: "right" }}
                                 >
-                                    <Card.Text>
+                                    <Card.Text className="engraved">
                                         {rejArticle(data.GetAuthorArticles)}
                                     </Card.Text>
                                 </Col>
@@ -209,7 +224,11 @@ const DashboardReporter = () => {
                                                 newsData.images !== ""
                                                     ? newsData.images
                                                     : image
-                                            }                                        
+                                            }
+                                            style={{
+                                                maxHeight: "200px",
+                                                objectFit: "cover",
+                                            }}
                                         />
                                         <Card.Body>
                                             <Card.Title

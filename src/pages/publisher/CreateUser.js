@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Button, Form, Card } from "react-bootstrap";
-import axios from "axios";
+// import axios from "axios";
 import swal from "sweetalert";
 import {CREATE_AUTHOR} from '../../config/graphql/Mutations'
 import {useMutation} from '@apollo/client'
@@ -9,7 +9,7 @@ export default function CreateUser() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [createAuthor, { data }] = useMutation(CREATE_AUTHOR)
+  const [createAuthor] = useMutation(CREATE_AUTHOR)
 
   const handleChangeName = (e) => {
     setFullName(e.target.value);
@@ -45,11 +45,7 @@ export default function CreateUser() {
     //     console.log(error);
     //   });
   };
-
-  console.log(email);
-  console.log(password)
-  console.log(fullName)
-
+  
   return (
     <div id="login">
       <Container className="container-login container">

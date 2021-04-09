@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Container, Card } from "react-bootstrap";
-import axios from "axios";
+// import axios from "axios";
 import swal from "sweetalert";
 import {useMutation} from '@apollo/client';
 import {UPDATE_USER} from '../../config/graphql/Mutations'
@@ -9,7 +9,6 @@ export default function EditUser(props) {
     const [fullName, setFullName] = useState(props.location.state.detail.fullname);
     const idUser = props.location.state.detail.id;
     const [updateUser] = useMutation(UPDATE_USER)
-    console.log(props);
     const handleChangeName = (e) => {
         setFullName(e.target.value);
     };

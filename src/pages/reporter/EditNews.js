@@ -11,7 +11,7 @@ const EditNews = (props) => {
     const [content, setContent] = useState(props.location.state.detail.content);
     const [image, setImage] = useState(props.location.state.detail.images);
     const [updateArticles] = useMutation(UPDATE_ARTICLE);
-    const status = props.location.state.detail.status;
+    // const status = props.location.state.detail.status;
     const idArticle = props.location.state.detail.id;
     const token = localStorage.getItem("token");
 
@@ -56,7 +56,7 @@ const EditNews = (props) => {
         });
 
         let FormData = require("form-data");
-        let fs = require("fs");
+        // let fs = require("fs");
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idArticle);
@@ -93,7 +93,7 @@ const EditNews = (props) => {
         });
 
         let FormData = require("form-data");
-        let fs = require("fs");
+        // let fs = require("fs");
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idArticle);

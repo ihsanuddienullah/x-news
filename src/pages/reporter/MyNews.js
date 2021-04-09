@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     Row,
     Col,
@@ -10,7 +10,7 @@ import {
     Nav,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import swal from "sweetalert";
 import { GET_AUTHOR_ARTICLES } from "./../../config/graphql/Queries";
 import { useQuery } from "@apollo/client";
@@ -26,7 +26,7 @@ const MyNews = () => {
     const [title, setTitle] = useState("");
     const idAuthor = localStorage.getItem("id");
     const [status, setStatus] = useState("");
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -149,6 +149,7 @@ const MyNews = () => {
                             src={
                                 newsData.images !== "" ? newsData.images : image
                             }
+                            style={{ maxHeight: "200px", objectFit: "cover" }}
                         />
                         <Card.Body>
                             <Card.Title style={{ fontWeight: "bolder" }}>

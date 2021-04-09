@@ -38,7 +38,7 @@ const App = () => {
             setIsLoginPublisher(false)
             setIsLoginAuthor(false)
         }
-    }, [])
+    }, [roles])
 
     return (
         <BrowserRouter>

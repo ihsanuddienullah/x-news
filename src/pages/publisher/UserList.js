@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Table,
@@ -9,7 +9,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FaTrash, FaPlus, FaEdit } from "react-icons/fa";
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
 import { DELETE_AUTHOR } from "../../config/graphql/Mutations";
@@ -35,13 +35,14 @@ export default function UserList() {
   const { loading, error, data, refetch } = useQuery(GET_ARTICLES_AND_USERS);
 
   if (loading) return <LoopCircleLoading className="container" color="#000" />;
+  if (error) return <LoopCircleLoading className="container" color="#000" />;
 
   const handleChange = (event) => {
     event.persist();
     setValues(event.target.value);
   };
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   async function onDelete(idUser) {
     await deleteAuthor({ variables: { id: idUser } });

@@ -1,7 +1,7 @@
-// eslint-disable-next-line
 export default function validasiLogin(values, remember) {
     let errors = {};
     const validEmailRegex = RegExp(
+        // eslint-disable-next-line
         /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     );
 

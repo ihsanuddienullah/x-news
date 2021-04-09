@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     Row,
     Col,
@@ -23,7 +23,7 @@ const MyNews = () => {
     const [idArticle, setIdArticle] = useState();
     const [title, setTitle] = useState("");
     const idAuthor = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -119,6 +119,10 @@ const MyNews = () => {
                                                     ? newsData.images
                                                     : image
                                             }
+                                            style={{
+                                                maxHeight: "200px",
+                                                objectFit: "cover",
+                                            }}
                                         />
                                         <Card.Body>
                                             <Card.Title

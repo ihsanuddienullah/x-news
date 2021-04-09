@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col, Container, Card, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
 import { useQuery } from "@apollo/client";
 import { LoopCircleLoading } from "react-loadingg";
@@ -12,7 +12,7 @@ export default function Proposal() {
   const { loading, error, data } = useQuery(GET_ARTICLES_AND_USERS, {pollInterval: 500});
 
   if (loading) return <LoopCircleLoading className="container" color="#000" />;
-  console.log(data);
+  if (error) return <LoopCircleLoading className="container" color="#000" />;
 
   const handleChange = (event) => {
     event.persist();
@@ -53,7 +53,7 @@ export default function Proposal() {
                   className="mb-3"
                 >
                   <Card className="card-shadow">
-                    <Card.Img variant="top" src={items.images !== "" ? items.images : image} />
+                    <Card.Img variant="top" src={items.images !== "" ? items.images : image} style={{maxHeight:'200px', objectFit:'cover'}} />
                     <Card.Body>
                       {items.categories.map((category) => (
                         <Col>
