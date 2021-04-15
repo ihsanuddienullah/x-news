@@ -5,6 +5,7 @@ import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
 import { useQuery } from "@apollo/client";
 import { LoopCircleLoading } from "react-loadingg";
 import  image  from "../../styles/img/image-null.png";
+import {FaThumbsUp, FaThumbsDown} from 'react-icons/fa'
 
 const DashboardPublisher = () => {
   const { loading, error, data } = useQuery(GET_ARTICLES_AND_USERS, {
@@ -48,18 +49,6 @@ const DashboardPublisher = () => {
     }
     return jumlah;
   };
-
-  // const textColor = (category) => {
-  //   let color;
-  //   if (category==='Sports'){
-  //     color='red'
-  //   } else if (category==='Bisnis'){
-  //     color='green'
-  //   } else if (category==='Entertainment'){
-  //     color='pink'
-  //   }
-  //   return color
-  // }
 
   return (
     <div id="dashboard-publisher">
@@ -140,14 +129,7 @@ const DashboardPublisher = () => {
                     />
                     <Card.Body>
                       <Row>
-                        {items.categories.map((category) => (
-                          <Col>
-                            {/* <Card.Text style={{color: textColor(category.name) }}>{category.name}</Card.Text> */}
-                            <Card.Text style={{ fontWeight: "bold" }}>
-                              {category.name}
-                            </Card.Text>
-                          </Col>
-                        ))}
+                        <Col>{tanggalan(items.created_at)}</Col>
                       </Row>
                       <Card.Title style={{ fontWeight: "bolder" }}>
                         {items.title}
@@ -156,7 +138,39 @@ const DashboardPublisher = () => {
                         <Col>
                           <Card.Text>{items.author.fullname}</Card.Text>
                         </Col>
-                        <Col>{tanggalan(items.created_at)}</Col>
+                      </Row>
+                      <Row>
+                        {items.categories.map((category) => (
+                            <Card.Text
+                            className="text-secondary ml-3 mr-0 mb-0"
+                          >
+                            {category.name}
+                          </Card.Text>
+                        ))}
+                      </Row>
+                      <Row className='mt-2 mb-0'>
+                        <Col
+                          xl={4}
+                          lg={4}
+                          xs={6}
+                          className="d-flex justify-content-start mb-2"
+                        >
+                          <FaThumbsUp color="#5EA847" />
+                          <Card.Text className="ml-3">
+                            {items.likes}
+                          </Card.Text>
+                        </Col>
+                        <Col
+                          xl={4}
+                          lg={4}
+                          xs={6}
+                          className="d-flex justify-content-start mb-2"
+                        >
+                          <FaThumbsDown color="red" />
+                          <Card.Text className="ml-3">
+                            {items.dislikes}
+                          </Card.Text>
+                        </Col>
                       </Row>
                       <Button
                         variant="primary"
@@ -165,7 +179,7 @@ const DashboardPublisher = () => {
                           pathname: `/trending/${items.id}`,
                           params: { items },
                         }}
-                        className="mr-3  mb-0 mt-3"
+                        className="mr-3  mb-0 mt-1"
                         block
                       >
                         Detail

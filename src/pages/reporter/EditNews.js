@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Button, Form, Container } from "react-bootstrap";
 import axios from "axios";
 import swal from "sweetalert";
 import { UPDATE_ARTICLE } from "../../config/graphql/Mutations";
-import { useMutation } from "@apollo/client";
+import { GET_ALL_CATEGORY } from "./../../config/graphql/Queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { LoopCircleLoading } from "react-loadingg";
 
 const EditNews = (props) => {
     const [title, setTitle] = useState(props.location.state.detail.title);
     const [content, setContent] = useState(props.location.state.detail.content);
     const [image, setImage] = useState(props.location.state.detail.images);
+    const [categoryArticle] = useState(props.location.state.detail.categories);
+    const [category] = useState([]);
+    const [deletedCategory] = useState([]);
     const [updateArticles] = useMutation(UPDATE_ARTICLE);
-    // const status = props.location.state.detail.status;
+    const { loading, error, data } = useQuery(GET_ALL_CATEGORY);
+    const gambar = props.location.state.detail.images;
     const idArticle = props.location.state.detail.id;
     const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        categoryArticle.map((ctgry) => {
+            return deletedCategory.push(ctgry.id);
+        });
+    }, []);
+    console.log(deletedCategory.toString());
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
@@ -22,61 +35,66 @@ const EditNews = (props) => {
         setContent(e.target.value);
     };
 
-    // let config = {
-    //     method: "post",
-    //     url: `https://xnews-development.herokuapp.com/x-news/?Query=mutation+_{updateArticles(id:${idArticle},title:"${title}",content:"${content}" status:"${status}"){id, title, content, status}}`,
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // };
-
-    // const updateArticle = (e) => {
-    //     e.preventDefault();
-    //     axios(config)
-    //         .then(function (response) {
-    //             swal("News Edited", `${title}`, "success");
-    //             // console.log(response);
-    //             window.location.assign("/mynews");
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // };
+    const handleCategory = (e) => {
+        const index = category.indexOf(`${e.target.name}`);
+        e.target.checked
+            ? category.push(e.target.name)
+            : index > -1 && category.splice(index, 1);
+        console.log(category.toString());
+    };
 
     const updateArticle = async (e) => {
         e.preventDefault();
-        await updateArticles({
-            variables: {
-                id: idArticle,
-                title: title,
-                content: content,
-                status: "Submit",
-            },
-        });
-
-        let FormData = require("form-data");
-        // let fs = require("fs");
-        let data = new FormData();
-        data.append("image", image);
-        data.append("articles_id", idArticle);
-
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then((res) => {
-                // console.log(idNews);
-                // console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
+        if (category.length !== 0) {
+            await updateArticles({
+                variables: {
+                    id: idArticle,
+                    title: title,
+                    content: content,
+                    status: "Submit",                    
+                    added_categories: category.toString(),
+                },
             });
-        await swal("News Edited", `${title}`, "success");
-        window.location.assign("/mynews");
+
+            let FormData = require("form-data");
+            let dataForm = new FormData();
+            dataForm.append("image", image);
+            dataForm.append("articles_id", idArticle);
+
+            if (image !== gambar) {
+                axios({
+                    method: "post",
+                    url:
+                        "https://xnews-graphql-playground.herokuapp.com/upload",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    dataForm,
+                })
+                    .then(async (res) => {
+                        await swal("News Edited", `${title}`, "success");
+                        window.location.assign("/mynews");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        swal(
+                            "Edit news failed!",
+                            "Please try again later or contact your administrator!",
+                            "error"
+                        );
+                    });
+            } else {
+                await swal("News Edited", `${title}`, "success");
+                window.location.assign("/mynews");
+            }
+        } else {
+            e.preventDefault();
+            swal(
+                "Update news failed!",
+                "Please choose the new category!",
+                "error"
+            );
+        }
     };
 
     const updateDraftArticle = async (e) => {
@@ -87,33 +105,45 @@ const EditNews = (props) => {
                 title: title,
                 content: content,
                 status: "Draft",
+                added_categories: category.toString(),
             },
         });
 
         let FormData = require("form-data");
-        // let fs = require("fs");
-        let data = new FormData();
-        data.append("image", image);
-        data.append("articles_id", idArticle);
+        let dataForm = new FormData();
+        dataForm.append("image", image);
+        dataForm.append("articles_id", idArticle);
 
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then((res) => {
-                // console.log(idNews);
-                // console.log(res);
+        if (image !== gambar) {
+            axios({
+                method: "post",
+                url: "https://xnews-graphql-playground.herokuapp.com/upload",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                dataForm,
             })
-            .catch((err) => {
-                console.log(err);
-            });
-        await swal("Draft Edited", `${title}`, "success");
-        window.location.assign("/mydraft");
+                .then(async (res) => {
+                    await swal("Draft Edited", `${title}`, "success");
+                    window.location.assign("/mydraft");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    swal(
+                        "Edit news failed!",
+                        "Please try again later or contact your administrator!",
+                        "error"
+                    );
+                });
+        } else {
+            await swal("Draft Edited", `${title}`, "success");
+            window.location.assign("/mydraft");
+        }
     };
+
+    if (loading)
+        return <LoopCircleLoading className="container" color="#000" />;
+    if (error) return <p className="container">Error :(</p>;
 
     return (
         <div id="editNews">
@@ -163,6 +193,34 @@ const EditNews = (props) => {
                                 Submit
                             </Button>
                         </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <span className="mb-0">Current category : </span>
+                            {categoryArticle.map((ctgry, index) => (
+                                <span
+                                    className="mr-3 font-weight-bold"
+                                    key={index}
+                                >
+                                    {ctgry.name}
+                                </span>
+                            ))}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12} sm={12} lg={12} xs={12}>
+                            <p className="mb-0">New category (Please choose again the category!) : </p>
+                        </Col>
+                        {data.GetAllCategories.map((category, index) => (
+                            <Col md={3} sm={3} lg={2} xs={6} key={index}>
+                                <Form.Check
+                                    type="checkbox"
+                                    label={category.name}
+                                    name={category.id}
+                                    onChange={handleCategory}                                    
+                                />
+                            </Col>
+                        ))}
                     </Row>
                     <Row>
                         <Col>

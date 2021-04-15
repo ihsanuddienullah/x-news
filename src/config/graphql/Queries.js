@@ -7,6 +7,8 @@ export const GET_ARTICLES_AND_USERS = gql`
             title
             created_at
             content
+            likes
+            dislikes
             author {
                 fullname
             }

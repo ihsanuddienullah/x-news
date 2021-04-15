@@ -3,10 +3,14 @@ body {
     padding: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     /* background: lightgray; */
+    background : url('../img/background6.jpg');
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .container {
     position: relative;
+    /* margin-top: 7vh; */
     top: 10vh;
 }
 
@@ -30,6 +34,23 @@ body {
     text-shadow: -1px -1px rgba(0, 0, 0, 0.5), 1px 1px rgba(255, 255, 255, 0.5);
     color: rgba(0, 0, 0, 0.5);
 }
+
+.card-text {
+    white-space: pre-wrap;
+}
+
+#login {
+    background: url('../img/background4.jpg');
+    background-size: cover;
+    height: 100vh;
+    background-attachment: fixed;
+}
+
+/* #dashboard-reporter, #dashboard-publisher, #my-news, #my-draft, #user-list, #proposal {
+    background : url('../img/background3.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+} */
 
 #dashboard-reporter .card:hover,
 #dashboard-publisher .card:hover,
@@ -71,11 +92,16 @@ body {
 #my-news .card-shadow,
 #proposal .card-shadow,
 #unapproved-news .card-shadow,
-#myDraft .card-shadow,
-#login .card-shadow {
+#my-draft .card-shadow {
     -webkit-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
     -moz-box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
     box-shadow: 8px 8px 10px 2px rgba(227, 227, 227, 1);
+}
+
+#login .card-shadow {
+    -webkit-box-shadow: 7px 6px 27px 0px rgba(82,81,82,1);
+-moz-box-shadow: 7px 6px 27px 0px rgba(82,81,82,1);
+box-shadow: 7px 6px 27px 0px rgba(82,81,82,1);
 }
 
 #login .container-login {

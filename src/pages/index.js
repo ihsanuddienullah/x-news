@@ -6,7 +6,6 @@ export { default as MyNews } from "./reporter/MyNews";
 export { default as MyDraft } from "./reporter/MyDraft";
 export { default as CreateNews } from "./reporter/CreateNews";
 export { default as NewsDetail } from "./reporter/NewsDetail";
-export { default as TrendingNews } from "./reporter/TrendingNews";
 export { default as EditNews } from "./reporter/EditNews";
 
 //publisher

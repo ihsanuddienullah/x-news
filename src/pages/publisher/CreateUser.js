@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, Button, Form, Card } from "react-bootstrap";
-// import axios from "axios";
 import swal from "sweetalert";
 import {CREATE_AUTHOR} from '../../config/graphql/Mutations'
 import {useMutation} from '@apollo/client'
@@ -21,29 +20,19 @@ export default function CreateUser() {
     setPassword(e.target.value);
   };
 
-  // const token = localStorage.getItem("token");
   async function onCreateSubmit (e) {
     e.preventDefault();
     await createAuthor({variables:{email: email, password: password, fullname: fullName}})
-    await swal("Users Created", `${fullName}`, "success")
-    window.location.assign('/userlist')
-    // window.location.assign('/userlist')
-    // var config = {
-    //   method: "post",
-    //   url: `https://xnews-development.herokuapp.com/x-news/?Query=mutation+_{createAuthor(email:"${email}", password:"${password}", fullname:"${fullName}"){id,email, fullname, roles}}`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // };
-
-    // axios(config)
-    //   .then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //     window.location.assign("/userlist");
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    .then(async(res)=>{
+      await swal("Users Created", `${fullName}`, "success")
+      window.location.assign('/userlist')
+    })
+    .catch((err)=>{
+      swal(
+        "Create user failed!",
+        "Please try again later or contact your administrator!",
+        "error"
+    )})
   };
   
   return (
