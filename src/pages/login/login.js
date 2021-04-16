@@ -14,7 +14,6 @@ export default function Login() {
     values,
     errors,
     history,
-    // message,
     handlingChange,
     handleFormSubmit,
   } = useLogin(berhasil, validasi);

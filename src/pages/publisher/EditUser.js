@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, Form, Container, Card } from "react-bootstrap";
-// import axios from "axios";
 import swal from "sweetalert";
 import {useMutation} from '@apollo/client';
 import {UPDATE_USER} from '../../config/graphql/Mutations'
@@ -13,27 +12,19 @@ export default function EditUser(props) {
         setFullName(e.target.value);
     };
 
-    // let config = {
-    //     method: "post",
-    //     url: `https://xnews-development.herokuapp.com/x-news/?Query=mutation+_{updateUser(id:${idUser},fullname:"${fullName}"){id,email, fullname}}`,
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // };
-
     async function updateAuthor (e) {
         e.preventDefault();
         await updateUser({variables:{id:idUser, fullname: fullName}})
-        await swal("Users Edited", `${fullName}`, "success");
-        window.location.assign('/userlist')
-        // axios(config)
-        //     .then(function (response) {
-        //         console.log(JSON.stringify(response.data));
-        //         window.location.assign("/userlist");
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+        .then(async(res)=>{
+          await swal("Users Edited", `${fullName}`, "success");
+          window.location.assign('/userlist')
+        })
+        .catch((err)=>{
+          swal(
+            "Edit username failed!",
+            "Please try again later or contact your administrator!",
+            "error"
+        )})
     };
 
   return (

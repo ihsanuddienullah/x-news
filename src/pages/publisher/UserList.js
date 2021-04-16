@@ -9,15 +9,14 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FaTrash, FaPlus, FaEdit } from "react-icons/fa";
-// import axios from "axios";
 import { Link } from "react-router-dom";
 import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
 import { DELETE_AUTHOR } from "../../config/graphql/Mutations";
 import { useMutation, useQuery } from "@apollo/client";
 import { LoopCircleLoading } from "react-loadingg";
+import swal from "sweetalert";
 
 export default function UserList() {
-  // const [list, setList] = useState([]);
   const [values, setValues] = useState("");
   const [idArticle, setIdArticle] = useState();
   const [title, setTitle] = useState("");
@@ -42,30 +41,18 @@ export default function UserList() {
     setValues(event.target.value);
   };
 
-  // const token = localStorage.getItem("token");
-
   async function onDelete(idUser) {
-    await deleteAuthor({ variables: { id: idUser } });
-    await refetch();
-    handleClose();
-    // window.location.reload();
-    // var config = {
-    //   method: "post",
-    //   url: `https://xnews-development.herokuapp.com/x-news/?Query=mutation+_{deleteAuthor(id:${id}){id, fullname}}`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // };
-
-    // axios(config)
-    //   .then(function (response) {
-    //     console.log(response);
-    //     console.log(JSON.stringify(response.data));
-    //     window.location.reload();
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    await deleteAuthor({ variables: { id: idUser } })
+    .then(async(res)=>{
+      await refetch();
+      handleClose();
+    })
+    .catch((e)=>{
+      swal(
+        "Delete user failed!",
+        "Please try again later or contact your administrator!",
+        "error"
+    )})
   }
 
   return (

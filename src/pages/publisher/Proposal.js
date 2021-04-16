@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Container, Card, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import axios from "axios";
 import { GET_ARTICLES_AND_USERS } from "../../config/graphql/Queries";
 import { useQuery } from "@apollo/client";
 import { LoopCircleLoading } from "react-loadingg";
@@ -55,11 +54,9 @@ export default function Proposal() {
                   <Card className="card-shadow">
                     <Card.Img variant="top" src={items.images !== "" ? items.images : image} style={{maxHeight:'200px', objectFit:'cover'}} />
                     <Card.Body>
-                      {items.categories.map((category) => (
-                        <Col>
-                          <Card.Text>{category.name}</Card.Text>
-                        </Col>
-                      ))}
+                      <Row>
+                        <Col>{tanggalan(items.created_at)}</Col>
+                      </Row>
                       <Card.Title style={{ fontWeight: "bolder" }}>
                         {items.title}
                       </Card.Title>
@@ -67,7 +64,15 @@ export default function Proposal() {
                         <Col>
                           <Card.Text>{items.author.fullname}</Card.Text>
                         </Col>
-                        <Col>{tanggalan(items.created_at)}</Col>
+                      </Row>
+                      <Row>
+                        {items.categories.map((category) => (
+                            <Card.Text
+                            className="text-secondary ml-3 mr-0 mb-0"
+                          >
+                            {category.name}
+                          </Card.Text>
+                        ))}
                       </Row>
                       <Row>
                         <Button

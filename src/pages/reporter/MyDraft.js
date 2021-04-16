@@ -22,8 +22,7 @@ const MyNews = () => {
     const [values, setValues] = useState("");
     const [idArticle, setIdArticle] = useState();
     const [title, setTitle] = useState("");
-    const idAuthor = localStorage.getItem("id");
-    // const token = localStorage.getItem("token");
+    const idAuthor = localStorage.getItem("id");    
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -123,42 +122,37 @@ const MyNews = () => {
                                                 maxHeight: "200px",
                                                 objectFit: "cover",
                                             }}
-                                        />
+                                            />
                                         <Card.Body>
+                                            <Row>
+                                            <Col>
+                                                {tanggalan(
+                                                    newsData.created_at
+                                                )}
+                                            </Col>
+                                            </Row>
                                             <Card.Title
                                                 style={{ fontWeight: "bolder" }}
                                             >
                                                 {newsData.title}
                                             </Card.Title>
-                                            <Row>
-                                                <Col>
-                                                    <Card.Text>
-                                                        {
-                                                            newsData.author
-                                                                .fullname
-                                                        }
-                                                    </Card.Text>
-                                                </Col>
-                                                <Col>
-                                                    {tanggalan(
-                                                        newsData.created_at
-                                                    )}
-                                                </Col>
+                                            <Row className='mb-2'>
+                                            {newsData.categories.map((category) => (
+                                                <Card.Text
+                                                    className="text-secondary ml-3 mr-0 mb-0"
+                                                >
+                                                    {category.name}
+                                                </Card.Text>
+                                                ))}
                                             </Row>
+                                            
                                             <Row>
+                                                
                                                 <Col
-                                                    lg={4}
-                                                    md={4}
+                                                    lg={6}
+                                                    md={6}
                                                     sm={12}
-                                                    xl={4}
-                                                    xs={12}
-                                                    className="mb-1"
-                                                ></Col>
-                                                <Col
-                                                    lg={4}
-                                                    md={4}
-                                                    sm={12}
-                                                    xl={4}
+                                                    xl={6}
                                                     xs={12}
                                                     className="mb-1"
                                                 >
@@ -184,10 +178,10 @@ const MyNews = () => {
                                                     </Button>
                                                 </Col>
                                                 <Col
-                                                    lg={4}
-                                                    md={4}
+                                                    lg={6}
+                                                    md={6}
                                                     sm={12}
-                                                    xl={4}
+                                                    xl={6}
                                                     xs={12}
                                                     className="mb-1"
                                                 >

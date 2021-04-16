@@ -11,9 +11,11 @@ const CreateNews = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
+    const [category] = useState([]);    
+    const [submitArticles] = useMutation(CREATE_ARTICLE);
+    
     const idAuthor = localStorage.getItem("id");
     const token = localStorage.getItem("token");
-    const [submitArticles] = useMutation(CREATE_ARTICLE);
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
@@ -24,101 +26,61 @@ const CreateNews = () => {
     };
 
     const handleCategory = (e) => {
-        console.log("value of checkbox : ", e.target.checked);
-    };
-
-    // let config = {
-    //     method: "post",
-    //     url: `https://xnews-development.herokuapp.com/x-news/?Query=mutation+_{submitArticles(title:"${title}",content:"${content}", author_id:${idAuthor}, status:"Submit"){id, title, content, author_id, status}}`,
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // };
-
-    // const createArticle = async (e) => {
-    //     e.preventDefault();
-    //     let idNews = null;
-    //     const createArticleResponse = await axios(config)
-    //         .then(function (response) {
-    //             swal("News Created", `${title}`, "success");
-    //             idNews = response.data.data.submitArticles.id;
-    //             // console.log(response.data.data.submitArticles.id);
-    //             window.location.assign("/mynews");
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-
-    //     let FormData = require("form-data");
-    //     let fs = require("fs");
-    //     let data = new FormData();
-    //     data.append("image", image, image.name);
-    //     data.append("articles_id", idNews);
-
-    //     axios({
-    //         method: "post",
-    //         url: "https://xnews-development.herokuapp.com/upload",
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //         },
-    //         data,
-    //     })
-    //         .then((res) => {
-    //             // console.log(res);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // };
+        const index = category.indexOf(`${e.target.name}`);
+        e.target.checked
+            ? category.push(e.target.name)
+            : index > -1 && category.splice(index, 1);
+    };    
 
     const createArticle = async (e) => {
         e.preventDefault();
         let idNews;
-        await submitArticles({
-            variables: {
-                content: content,
-                author_id: idAuthor,
-                status: "Submit",
-                title: title,
-            },
-        })
-            .then((res) => {
-                idNews = res.data.submitArticles.id;
-                // console.log(res);
+        if (category.length !== 0) {
+            await submitArticles({
+                variables: {
+                    content: content,
+                    author_id: idAuthor,
+                    status: "Submit",
+                    title: title,
+                    categories: category.toString(),
+                },
             })
-            .catch((err) => {
-                console.log(err);
-            });
+                .then((res) => {
+                    idNews = res.data.submitArticles.id;                    
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
 
-        let FormData = require("form-data");
-        // let fs = require("fs");
-        let data = new FormData();
-        data.append("image", image, image.name);
-        data.append("articles_id", idNews);
+            let FormData = require("form-data");            
+            let data = new FormData();
+            data.append("image", image, image.name);
+            data.append("articles_id", idNews);
 
-        axios({
-            method: "post",
-            url: "https://xnews-graphql-playground.herokuapp.com/upload",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            data,
-        })
-            .then(async (res) => {
-                // console.log(idNews);
-                // console.log(res);
-                await swal("News created", `${title}`, "success");
-                window.location.assign("/mynews");
+            axios({
+                method: "post",
+                url: "https://xnews-graphql-playground.herokuapp.com/upload",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data,
             })
-            .catch((err) => {
-                console.log(err);
-            });
-
-        // if(image !== null){            
-        // } else {
-        //     await swal("News saved as draft", `${title}`, "success")
-        //     window.location.assign("/mynews");
-        // }
+                .then(async (res) => {                    
+                    await swal("News created", `${title}`, "success");
+                    window.location.assign("/mynews");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    swal(
+                        "Create news failed!",
+                        "Please try again later or contact your administrator!",
+                        "error"
+                    );
+                });
+        } else {
+            e.preventDefault();
+            swal("Create news failed!", "Please choose category!", "error");
+        }
     };
 
     const saveAsDraft = async (e) => {
@@ -130,22 +92,20 @@ const CreateNews = () => {
                 author_id: idAuthor,
                 status: "Draft",
                 title: title,
+                categories: category.toString(),
             },
         })
             .then((res) => {
-                idNews = res.data.submitArticles.id;
-                // console.log(res);
+                idNews = res.data.submitArticles.id;                
             })
             .catch((err) => {
                 console.log(err);
             });
 
-        let FormData = require("form-data");
-        // let fs = require("fs");
+        let FormData = require("form-data");        
         let data = new FormData();
         data.append("image", image);
         data.append("articles_id", idNews);
-        console.log(image);
 
         if (image !== null) {
             axios({
@@ -156,14 +116,17 @@ const CreateNews = () => {
                 },
                 data,
             })
-                .then(async (res) => {
-                    // console.log(idNews);
-                    // console.log(res);
+                .then(async (res) => {                    
                     await swal("News saved as draft", `${title}`, "success");
                     window.location.assign("/mydraft");
                 })
                 .catch((err) => {
                     console.log(err);
+                    swal(
+                        "Save news failed!",
+                        "Please try again later or contact your administrator!",
+                        "error"
+                    );
                 });
         } else {
             await swal("News saved as draft", `${title}`, "success");
@@ -175,7 +138,7 @@ const CreateNews = () => {
 
     if (loading)
         return <LoopCircleLoading className="container" color="#000" />;
-    if (error) return <p className="container">Error :(</p>;
+    if (error) return <p className="container">Error :(</p>;    
 
     return (
         <div id="createNews">
@@ -227,11 +190,17 @@ const CreateNews = () => {
                         </Col>
                     </Row>
                     <Row>
-                        {data.GetAllCategories.map((category) => (
-                            <Col>
+                        <Col md={3} sm={3} lg={2} xs={6}>
+                            <p className="mb-0">Category : </p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        {data.GetAllCategories.map((category, index) => (
+                            <Col md={3} sm={3} lg={2} xs={6} key={index}>
                                 <Form.Check
                                     type="checkbox"
                                     label={category.name}
+                                    name={category.id}
                                     onChange={handleCategory}
                                 />
                             </Col>

@@ -43,6 +43,15 @@ const NewsDetail = (props) => {
                                 }
                                 alt="news-pict"
                             />
+                            <Row className='mt-2'>
+                            {data.GetDetailArticles.categories.map((category) => (
+                                    <Card.Text
+                                        className="text-secondary ml-3 mr-0 mb-0"
+                                    >
+                                        {category.name}
+                                    </Card.Text>
+                            ))}
+                            </Row>
                             <Card.Title style={{ fontSize: "40px" }}>
                                 {data.GetDetailArticles.title}
                             </Card.Title>
@@ -58,7 +67,7 @@ const NewsDetail = (props) => {
                                 className="card-shadow p-4 rounded mb-3"
                             >
                                 <Card.Title style={{ fontSize: "30px" }}>
-                                    Notes
+                                    {items.notes}
                                 </Card.Title>
                                 {/* {props.location.params.newsData.notes.map((note) => (
               ))} */}
